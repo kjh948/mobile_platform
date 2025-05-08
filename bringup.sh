@@ -1,0 +1,1 @@
+ros2 launch omo_r1mini_bringup omo_r1mini_bringup.launch.py
