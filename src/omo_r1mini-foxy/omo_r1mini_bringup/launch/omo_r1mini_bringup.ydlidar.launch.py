@@ -11,7 +11,6 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch.substitutions import ThisLaunchFileDir
-from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
@@ -20,6 +19,14 @@ def generate_launch_description():
     default=os.path.join(
       get_package_share_directory('omo_r1mini_bringup'),
       'param/omo_r1mini_mcu.yaml'
+    )
+  )
+
+  omo_r1mini_lidar_parameter = LaunchConfiguration(
+    'omo_r1mini_lidar_parameter',
+    default=os.path.join(
+      get_package_share_directory('omo_r1mini_bringup'),
+      'param/omo_r1mini_lidar.yaml'
     )
   )
 
@@ -33,28 +40,25 @@ def generate_launch_description():
     )
   )
 
-  rplidar_dir = LaunchConfiguration(
-    'rplidar_dir',
-    default=os.path.join(
-      get_package_share_directory('sllidar_ros2'),
-      'launch'
-    )
-  )
-
   return LaunchDescription([
     DeclareLaunchArgument(
       'omo_r1mini_mcu_parameter',
       default_value=omo_r1mini_mcu_parameter
     ),
 
+    DeclareLaunchArgument(
+      'omo_r1mini_lidar_parameter',
+      default_value=omo_r1mini_lidar_parameter
+    ),
 
     IncludeLaunchDescription(
       PythonLaunchDescriptionSource([ThisLaunchFileDir(), '/omo_r1mini_mcu.launch.py']),
       launch_arguments={'omo_r1mini_mcu_parameter': omo_r1mini_mcu_parameter}.items()
     ),
-
+    
     IncludeLaunchDescription(
-      PythonLaunchDescriptionSource([rplidar_dir, '/sllidar_s2_launch.py']),
+      PythonLaunchDescriptionSource([ThisLaunchFileDir(), '/omo_r1mini_lidar.launch.py']),
+      launch_arguments={'omo_r1mini_lidar_parameter': omo_r1mini_lidar_parameter}.items()
     ),
     
     IncludeLaunchDescription(
