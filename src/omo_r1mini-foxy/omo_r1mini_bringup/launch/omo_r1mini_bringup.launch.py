@@ -36,7 +36,7 @@ def generate_launch_description():
   rplidar_dir = LaunchConfiguration(
     'rplidar_dir',
     default=os.path.join(
-      get_package_share_directory('sllidar_ros2'),
+      get_package_share_directory('rplidar_ros'),
       'launch'
     )
   )
@@ -54,7 +54,7 @@ def generate_launch_description():
     ),
 
     IncludeLaunchDescription(
-      PythonLaunchDescriptionSource([rplidar_dir, '/sllidar_s2_launch.py']),
+      PythonLaunchDescriptionSource([rplidar_dir, '/rplidar_s3_launch.py']),
     ),
     
     IncludeLaunchDescription(
